@@ -206,7 +206,7 @@ def generate_file(key=None):
         response.headers["Content-Disposition"] = 'inline; filename=%s' % key
         file_obj = s3_upload.read_file_from_s3(key)
         if file_obj:
-            print dir(file_obj)
+            # print dir(file_obj)
             response.data = file_obj['Body'].read()
             response.headers['Content-Type'] = file_obj['ContentType']
             return response
@@ -231,9 +231,7 @@ def upload_existing_files_s3(name, file_name):
         site_path = frappe.utils.get_site_path()
         parent_doctype = doc.attached_to_doctype
         parent_name = doc.attached_to_name
-        print("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-        print(s3_upload.S3_CLIENT.meta.endpoint_url)
-        print("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+     
         
         if not doc.is_private:
             file_path = site_path + '/public' + path
@@ -280,10 +278,10 @@ def migrate_existing_files():
         if file['file_url']:
             try:
                 if not s3_file_regex_match(file['file_url']):
-                    print file['file_url'], file['file_name'], file['name']
+                    # print file['file_url'], file['file_name'], file['name']
                     upload_existing_files_s3(file['name'], file['file_name'])
             except Exception as e:
-                print e
+                pass
     return True
 
 
@@ -412,7 +410,8 @@ def download_file(file):
         S3_CLIENT.download_file(BUCKET,file, 'test.mp4')
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
-            print("The object does not exist.")
+            # print("The object does not exist.")
+            pass
         else:
             raise
     # bucket = S3_CLIENT.download_file(Bucket=BUCKET)
