@@ -69,7 +69,7 @@ class S3Operations(object):
                 parent_doctype, {'name': parent_name}, ['s3_folder_path'])
             doc_path = doc_path.rstrip('/').lstrip('/')
         except Exception as e:
-            print e
+            frappe.log_error(title="s3_key_generator",message=frappe.get_traceback())
 
         if not doc_path:
             if self.folder_name:
